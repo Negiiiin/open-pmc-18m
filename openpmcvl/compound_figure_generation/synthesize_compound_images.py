@@ -17,7 +17,7 @@ def random_gap(margin_mode, max_gap=50):
     """
     if margin_mode == 'no margin':
         return 0
-    gap = np.random.beta(a=2, b=10) * max_gap  # Beta(2,10) skews towards 0
+    gap = np.random.beta(a=2, b=10) * max_gap
     return int(gap)
 
 # -----------------------------------------------------------------------------
@@ -56,9 +56,8 @@ def add_label_to_image(img, label, layout_params, target_size=None):
     text_size = measure_text(draw, label, font)
 
     if scheme == 'overlay_top':
-        # 🔀 Add randomness to top-left position
-        x_offset = random.randint(5, 20)  # 🔸 randomness here
-        y_offset = random.randint(5, 15)  # 🔸 and here
+        x_offset = random.randint(5, 20)
+        y_offset = random.randint(5, 15)
         text_color = get_contrasting_text_color(img, (x_offset, y_offset), text_size)
         draw.text((x_offset, y_offset), label, fill=text_color, font=font)
         out_img = img
@@ -69,10 +68,9 @@ def add_label_to_image(img, label, layout_params, target_size=None):
         return out_img, (0, 0)
 
     elif scheme == 'overlay_bottom':
-        # 🔀 Randomize left margin and slightly vary vertical offset
-        x_offset = random.randint(5, 20)  # 🔸 randomness here
+        x_offset = random.randint(5, 20)
         y_offset = random.randint(5, 15)
-        text_y = img.height - text_size[1] - y_offset  # 🔸 and here
+        text_y = img.height - text_size[1] - y_offset
         text_color = get_contrasting_text_color(img, (x_offset, text_y), text_size)
         draw.text((x_offset, text_y), label, fill=text_color, font=font)
         out_img = img
@@ -88,8 +86,7 @@ def add_label_to_image(img, label, layout_params, target_size=None):
         new_img = Image.new("RGB", (new_width, img.height), "white")
         new_img.paste(img, (padding, 0))
         draw_new = ImageDraw.Draw(new_img)
-        # 🔀 Add slight randomness to vertical alignment
-        text_y = (img.height - text_size[1]) // 2 + random.randint(-5, 5)  # 🔸 here
+        text_y = (img.height - text_size[1]) // 2 + random.randint(-5, 5)
         draw_new.text((5, text_y), label, fill="black", font=font)
         if target_size is not None and new_img.size[0] < target_size[0]:
             final_img = Image.new("RGB", target_size, "white")
@@ -103,8 +100,7 @@ def add_label_to_image(img, label, layout_params, target_size=None):
         new_img = Image.new("RGB", (img.width, new_height), "white")
         new_img.paste(img, (0, 0))
         draw_new = ImageDraw.Draw(new_img)
-        # 🔀 Horizontal alignment with a small shift
-        text_x = (img.width - text_size[0]) // 2 + random.randint(-10, 10)  # 🔸 here
+        text_x = (img.width - text_size[0]) // 2 + random.randint(-10, 10)
         draw_new.text((text_x, img.height + 5), label, fill="black", font=font)
         if target_size is not None and new_img.size[1] < target_size[1]:
             final_img = Image.new("RGB", target_size, "white")
@@ -118,8 +114,7 @@ def add_label_to_image(img, label, layout_params, target_size=None):
         new_img = Image.new("RGB", (img.width, new_height), "white")
         new_img.paste(img, (0, padding))
         draw_new = ImageDraw.Draw(new_img)
-        # 🔀 Horizontal center with slight jitter
-        text_x = (img.width - text_size[0]) // 2 + random.randint(-10, 10)  # 🔸 here
+        text_x = (img.width - text_size[0]) // 2 + random.randint(-10, 10)
         draw_new.text((text_x, 5), label, fill="black", font=font)
         if target_size is not None and new_img.size[1] < target_size[1]:
             final_img = Image.new("RGB", target_size, "white")
